@@ -1,0 +1,9 @@
+{
+  "name": "tree",
+  "version": "0.0.1",
+  "dependencies": {
+    "firebase-admin": "latest",
+    "axios": "latest",
+    "cheerio": "latest"
+  }
+}
