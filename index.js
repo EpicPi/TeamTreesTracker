@@ -46,7 +46,7 @@ db.collection("minute")
                     maintainAspectRatio: false,
                     legend: {
                         display: false
-                    }, 
+                    },
                     tooltips: {
                         callbacks: {
                             label: function (tooltipItem) {
@@ -56,17 +56,17 @@ db.collection("minute")
                     },
                     scales: {
                         yAxes: [{
-                          scaleLabel: {
-                            display: true,
-                            labelString: 'Millions of Dollars'
-                          }
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Millions of Dollars'
+                            }
                         }],
                         xAxes: [{
                             scaleLabel: {
-                              display: true,
-                              labelString: 'T-minus timestamps'
+                                display: true,
+                                labelString: 'T-minus timestamps'
                             }
-                          }]
+                        }]
                     }
                 }
             });
@@ -96,17 +96,71 @@ db.collection("minute")
                     maintainAspectRatio: false,
                     scales: {
                         yAxes: [{
-                          scaleLabel: {
-                            display: true,
-                            labelString: 'Dollars'
-                          }
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Dollars'
+                            }
                         }],
                         xAxes: [{
                             scaleLabel: {
-                              display: true,
-                              labelString: 'T-minus timestamps'
+                                display: true,
+                                labelString: 'T-minus timestamps'
                             }
-                          }]
+                        }]
+                    }
+                }
+            });
+    })
+    .catch(function (error) {
+        console.log("Error getting documents: ", error);
+    });
+dayData= [];
+db.collection("hour")
+    .orderBy("time_stamp", "asc")
+    .limit(24)
+    .get()
+    .then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+            dayData.push(doc.data().count);
+            console.log(doc.id, " => ", doc.data().count);
+        });
+        new Chart(document.getElementById("myDayChart"),
+            {
+                type: "line",
+                data: {
+                    labels: [...Array(24).keys()].map(x => "t-" + x).reverse(),
+                    datasets: [{
+                        data: dayData.map(x => x / 1000000),
+                        borderColor: '#34eb86',
+                        backgroundColor: '#61755d'
+                    }],
+
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    legend: {
+                        display: false
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                return tooltipItem.yLabel;
+                            }
+                        }
+                    },
+                    scales: {
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Millions of Dollars'
+                            }
+                        }],
+                        xAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'T-minus timestamps'
+                            }
+                        }]
                     }
                 }
             });
