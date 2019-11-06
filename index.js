@@ -24,7 +24,7 @@ db.collection("minute")
     .get()
     .then(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
-            hourData.push(doc.data().count);=
+            hourData.push(doc.data().count);
         });
         hourData = hourData.reverse();
 
