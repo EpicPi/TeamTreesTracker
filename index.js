@@ -16,7 +16,6 @@ var db = firebase.firestore();
 
 var d = new Date();
 var seconds = Math.round(d.getTime() / 1000);
-console.log(seconds);
 var i = 0;
 var hourData = [];
 db.collection("minute")
@@ -25,8 +24,7 @@ db.collection("minute")
     .get()
     .then(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
-            hourData.push(doc.data().count);
-            console.log(doc.id, " => ", doc.data().count);
+            hourData.push(doc.data().count);=
         });
         hourData = hourData.reverse();
 
@@ -74,7 +72,6 @@ db.collection("minute")
         for (var i = 1; i < hourData.length; i++)  hourDeltaData.push(hourData[i] - hourData[i - 1]);
         var diffMs = new Date('01-01-2020') - new Date();
         var diffMins = Math.round(diffMs / 60000);
-        console.log(diffMs);
         new Chart(document.getElementById("myDeltaChart"),
             {
                 type: "bar",
@@ -122,7 +119,6 @@ db.collection("hour")
     .then(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
             dayData.push(doc.data().count);
-            console.log(doc.id, " => ", doc.data().count);
         });
         new Chart(document.getElementById("myDayChart"),
             {
